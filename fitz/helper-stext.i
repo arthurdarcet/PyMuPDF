@@ -73,34 +73,31 @@ static int detect_super_script(fz_stext_line *line, fz_stext_char *ch)
     return 0;
 }
 
-static const char *font_full_name(fz_context *ctx, fz_font *font)
-{
-    const char *name = fz_font_name(ctx, font);
-    const char *s = strchr(name, '+');
-    return s ? s + 1 : name;
-}
-
-static void font_family_name(fz_context *ctx, fz_font *font, char *buf, int size)
-{
-    const char *name = font_full_name(ctx, font);
-    fz_strlcpy(buf, name, size);
-}
-
 PyObject *
 JM_style_begin_dict(fz_context *ctx, fz_font *font, float size, int sup)
 {
     //JM_TRACE("entering JM_style_begin_dict");
-    char family[80];
-    font_family_name(ctx, font, family, sizeof family);
+    
     int flags = sup;
     flags += fz_font_is_italic(ctx, font) * 2;
     flags += fz_font_is_serif(ctx, font) * 4;
     flags += fz_font_is_monospaced(ctx, font) * 8;
     flags += fz_font_is_bold(ctx, font) * 16;
+    
+    char *name = fz_font_name(ctx, font);
+    
     PyObject *span = PyDict_New();
-    PyDict_SetItemString(span, "font", JM_UnicodeFromASCII(family));
+    
+    PyDict_SetItemString(span, "font", JM_UnicodeFromASCII(name));
     PyDict_SetItemString(span, "size", Py_BuildValue("f", size));
     PyDict_SetItemString(span, "flags", Py_BuildValue("i", flags));
+
+    PyDict_SetItemString(span, "super", PyBool_FromLong(sup));
+    PyDict_SetItemString(span, "italic", PyBool_FromLong(fz_font_is_italic(ctx, font)));
+    PyDict_SetItemString(span, "serif", PyBool_FromLong(fz_font_is_serif(ctx, font)));
+    PyDict_SetItemString(span, "monospaced", PyBool_FromLong(fz_font_is_monospaced(ctx, font)));
+    PyDict_SetItemString(span, "bold", PyBool_FromLong(fz_font_is_bold(ctx, font)));
+    
     //JM_TRACE("leaving JM_style_begin_dict");
     return span;
 }

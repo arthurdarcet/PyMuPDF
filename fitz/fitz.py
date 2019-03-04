@@ -1718,9 +1718,7 @@ def ConversionTrailer(i):
 
 
 class Document(_object):
-    """open() - new empty PDF
-open('type', stream) - from bytes/bytearray
-open(filename, filetype='type') - from file"""
+    """Proxy of C fz_document_s struct."""
 
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Document, name, value)
@@ -3087,13 +3085,7 @@ Page_swigregister = _fitz.Page_swigregister
 Page_swigregister(Page)
 
 class Pixmap(_object):
-    """Pixmap(Colorspace, width, height, samples, alpha)
-Pixmap(Colorspace, Irect, alpha)
-Pixmap(Colorspace, Pixmap) - converted copy
-Pixmap(filename)
-Pixmap(Pixmap, alpha) - copy & add / drop alpha
-Pixmap(bytearray)
-Pixmap(Document, xref) - from a PDF image"""
+    """Proxy of C fz_pixmap_s struct."""
 
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Pixmap, name, value)
