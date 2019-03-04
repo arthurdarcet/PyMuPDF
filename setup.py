@@ -1,4 +1,4 @@
-from distutils.core import setup, Extension
+from setuptools import setup, Extension
 import sys, os
 
 # check the platform
@@ -67,7 +67,7 @@ for l in pkg_tab:
 long_desc = "\n".join(long_dtab)
 
 setup(name = 'PyMuPDF',
-      version = "1.14.8_glose-0",
+      version = "1.14.8+glose.0",
       description = 'Python bindings for the PDF rendering library MuPDF',
       long_description = long_desc,
       classifiers = classifier,
